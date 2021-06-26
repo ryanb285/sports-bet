@@ -9,7 +9,6 @@ load_dotenv()
 # TODO Delete this sample data after build is complete 
 API_KEY = os.getenv("API_KEY", default=0)
 
-
 sample_data = {
   "success": "true",
   "data": [
@@ -90,7 +89,7 @@ while True:
 # team = 'New York Yankees'
 
 while True:
-    team = input("Which team did you want to bet on? ")
+    team = input("Which team did you want to bet on? Please use the full team name: ")
     team = str.title(team)
     if team in avail_teams:
         break
@@ -100,10 +99,14 @@ while True:
 
 print('Selected Team:',team)
 
+while True:
+    recipient_email = input("What is your email address? ")
+    bettor_name = input("What is your name? ")
+    break
 
 region = 'uk'
 # todo, allow user to input a region - input("Which region are you betting in?")
-print('Selected Region:',region.upper())
+#print('Selected Region:',region.upper())
 
 # Pull api key from ENV file
 load_dotenv()
@@ -203,10 +206,12 @@ USER_NAME = os.getenv("USER_NAME", default="Player 1")
 #begin email service 
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from datetime import date
+
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
 
-def send_email(subject, html, recipient_address=SENDER_EMAIL_ADDRESS):
+def send_email(subject, html, recipient_address=recipient_email):
     """
     Sends an email with the specified subject and html contents to the specified recipient,
 
@@ -217,7 +222,7 @@ def send_email(subject, html, recipient_address=SENDER_EMAIL_ADDRESS):
     print("SUBJECT:", subject)
     #print("HTML:", html)
 
-    message = Mail(from_email=SENDER_EMAIL_ADDRESS, to_emails=SENDER_EMAIL_ADDRESS, subject=subject, html_content=html)
+    message = Mail(from_email=SENDER_EMAIL_ADDRESS, to_emails=recipient_email, subject=subject, html_content=html)
     try:
         response = client.send(message)
         print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
@@ -231,18 +236,24 @@ if __name__ == "__main__":
 
     # DISPLAY OUTPUTS
 
-    #todays_date = date.today().strftime('%A, %B %d, %Y')
+    todays_date = date.today().strftime('%A, %B %d, %Y')
 
     html = ""
-    html += f"<h3>Hey {USER_NAME}, good luck on your bet!!</h3>"
+    html += f"<h3>Hey {bettor_name}, good luck on your bet!!</h3>"
 
-    #html += "<h4>Today's Date</h4>"
-    #html += f"<p>{todays_date}</p>"
+    html += "<h4>Today's Date</h4>"
+    html += f"<p>{todays_date}</p>"
 
     html += f"<h4>We're recommending you book your bet on {best_site} since the odds are {best_odds}</h4>"
-#    html += "<ul>"
-#    for forecast in result["hourly_forecasts"]:
-#        html += f"<li>{forecast['timestamp']} | {forecast['temp']} | {forecast['conditions'].upper()}</li>"
-#    html += "</ul>"
+    
+    html += f"<h4>Below are the sites and odds scanned</h4>"
+    
+    #html += "<ul>"
+    #for i in all_date['data']:
+    #    html+= f"<li>{i['site_nice']} | {i['odds']['h2h']} <li>"
+    #html += "</ul>"
 
-    send_email(subject="Your bet with Bets 'R Us", html=html)
+    html += f"<h5>Remember, bet with your head, not over it! If you feel like your gambling addiction is spirling out of control because youre a complete degenerate, please contact Gamblers Anonymous at 1-800-522-4700</h5>"
+
+
+    send_email(subject="Your recommended betting site with Bets 'R Us", html=html)
