@@ -245,4 +245,4 @@ if __name__ == "__main__":
 #        html += f"<li>{forecast['timestamp']} | {forecast['temp']} | {forecast['conditions'].upper()}</li>"
 #    html += "</ul>"
 
-send_email(subject="Your bet with Bets 'R Us", html=html)
+    send_email(subject="Your bet with Bets 'R Us", html=html)
