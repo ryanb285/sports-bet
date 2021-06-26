@@ -4,9 +4,11 @@ from operator import itemgetter
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()
 # TODO Delete this sample data after build is complete 
 API_KEY = os.getenv("API_KEY", default=0)
+
 
 sample_data = {
   "success": "true",
@@ -196,24 +198,66 @@ print("-------------------------------------")
 
 #need to sort the a['site_nice'] on high to low
 
-exit()
+USER_NAME = os.getenv("USER_NAME", default="Player 1")
 
-#can we use a list comprehension here? 
-# proposal LC below doesn't run 
-matching_odds =[od for od in sample_data if team in od["h2h"]] 
-for matching_odd in matching_odds:
-    print(matching_odd["site"]["odds"]["h2h"])
-print(matching_odds)
+#begin email service 
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
 
+def send_email(subject, html, recipient_address=SENDER_EMAIL_ADDRESS):
+    """
+    Sends an email with the specified subject and html contents to the specified recipient,
 
-sorted_odds = sorted(matching_odds, key=itemgetter("h2h"), reverse=False)
-best_odds = sorted_odds[0]
-#needs to be descending because the favorite of the game is a negative number
-#we need to establish early if the team they want to bet on is the favorite or not
-print(sorted_odds)
+    If recipient is not specified, sends to the admin's sender address by default.
+    """
+    client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
+    print("CLIENT:", type(client))
+    print("SUBJECT:", subject)
+    #print("HTML:", html)
 
-# TODO remove when done testing app 
-print("All Odds:", all_odds)
+    message = Mail(from_email=SENDER_EMAIL_ADDRESS, to_emails=SENDER_EMAIL_ADDRESS, subject=subject, html_content=html)
+    try:
+        response = client.send(message)
+        print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
+        print(response.status_code) #> 202 indicates SUCCESS
+        return response
+    except Exception as e:
+        print("OOPS", type(e), e.message)
+        return None
 
+if __name__ == "__main__":
 
-# no input for game, will just do next game
+    #print(f"RUNNING THE DAILY BRIEFING APP IN {APP_ENV.upper()} MODE...")
+
+    # CAPTURE INPUTS
+
+    #user_country, user_zip = set_geography()
+    #print("COUNTRY:", user_country)
+    #print("ZIP CODE:", user_zip)
+
+    # FETCH DATA
+
+    #result = get_hourly_forecasts(country_code=user_country, zip_code=user_zip)
+    #if not result:
+    #    print("INVALID GEOGRAPHY. PLEASE CHECK YOUR INPUTS AND TRY AGAIN!")
+    #   exit()
+
+    # DISPLAY OUTPUTS
+
+    #todays_date = date.today().strftime('%A, %B %d, %Y')
+
+    html = ""
+    html += f"<h3>Hey {USER_NAME}, good luck on your bet!!</h3>"
+
+    #html += "<h4>Today's Date</h4>"
+    #html += f"<p>{todays_date}</p>"
+
+    html += f"<h4>We're recommending you book your bet on {best_site} since the odds are {best_odds}</h4>"
+#    html += "<ul>"
+#    for forecast in result["hourly_forecasts"]:
+#        html += f"<li>{forecast['timestamp']} | {forecast['temp']} | {forecast['conditions'].upper()}</li>"
+#    html += "</ul>"
+
+    send_email(subject="Your bet with Bets 'R Us", html=html)
