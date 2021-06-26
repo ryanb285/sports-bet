@@ -229,21 +229,6 @@ def send_email(subject, html, recipient_address=SENDER_EMAIL_ADDRESS):
 
 if __name__ == "__main__":
 
-    #print(f"RUNNING THE DAILY BRIEFING APP IN {APP_ENV.upper()} MODE...")
-
-    # CAPTURE INPUTS
-
-    #user_country, user_zip = set_geography()
-    #print("COUNTRY:", user_country)
-    #print("ZIP CODE:", user_zip)
-
-    # FETCH DATA
-
-    #result = get_hourly_forecasts(country_code=user_country, zip_code=user_zip)
-    #if not result:
-    #    print("INVALID GEOGRAPHY. PLEASE CHECK YOUR INPUTS AND TRY AGAIN!")
-    #   exit()
-
     # DISPLAY OUTPUTS
 
     #todays_date = date.today().strftime('%A, %B %d, %Y')
@@ -260,4 +245,4 @@ if __name__ == "__main__":
 #        html += f"<li>{forecast['timestamp']} | {forecast['temp']} | {forecast['conditions'].upper()}</li>"
 #    html += "</ul>"
 
-    send_email(subject="Your bet with Bets 'R Us", html=html)
+send_email(subject="Your bet with Bets 'R Us", html=html)
