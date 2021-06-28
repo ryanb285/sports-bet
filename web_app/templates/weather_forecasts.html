@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <h2>Odds for {{ all_odds["odds"] }}</h2>
+
+    <p>sport: {{ sport }}</p>
+
+    <!-- TODO: consider using a table instead of a list -->
+    <!-- TODO: consider adding images using the provided icon urls -->
+    <ul>
+    {% for forecast in results["hourly_forecasts"] %}
+        <li>{{ forecast["timestamp"] }} | {{ forecast["temp"] }} | {{ forecast["conditions"].upper() }}</li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}
