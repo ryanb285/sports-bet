@@ -50,11 +50,8 @@ sample_data = {
 def to_usd(my_price):
     """
     Converts a numeric value to usd-formatted string, for printing and display purposes.
-
     Param: my_price (int or float) like 4000.444444
-
     Example: to_usd(4000.444444)
-
     Returns: $4,000.44
     """
     return f"${my_price:,.2f}" #> $12,000.71
@@ -213,7 +210,6 @@ SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
 def send_email(subject, html, recipient_address=recipient_email):
     """
     Sends an email with the specified subject and html contents to the specified recipient,
-
     If recipient is not specified, sends to the admin's sender address by default.
     """
     client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
@@ -256,5 +252,3 @@ if __name__ == "__main__":
 
 
     send_email(subject="Your recommended betting site with Bets 'R Us", html=html)
-
-##### setting up the website
