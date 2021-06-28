@@ -11,3 +11,4 @@ To set up your Python environment run the commands:
     conda create -n bet-env python=3.8
     conda activate bet-env
 
+heroku name = bets-python-2021

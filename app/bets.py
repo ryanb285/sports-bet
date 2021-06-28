@@ -1,6 +1,6 @@
 import requests
 import json
-from operator import itemgetter
+#from operator import itemgetter
 from dotenv import load_dotenv
 import os
 
@@ -253,7 +253,9 @@ if __name__ == "__main__":
     #    html+= f"<li>{i['site_nice']} | {i['odds']['h2h']} <li>"
     #html += "</ul>"
 
-    html += f"<h5>Remember, bet with your head, not over it! If you feel like your gambling addiction is spirling out of control because youre a complete degenerate, please contact Gamblers Anonymous at 1-800-522-4700</h5>"
+    html += f"<h5>Remember, bet with your head, not over it! If you feel like your gambling addiction is spirling out of control because you're a complete degenerate, please contact Gamblers Anonymous at 1-800-522-4700</h5>"
 
 
     send_email(subject="Your recommended betting site with Bets 'R Us", html=html)
+
+##### setting up the website
