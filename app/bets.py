@@ -1,6 +1,5 @@
 import requests
 import json
-#from operator import itemgetter
 from dotenv import load_dotenv
 import os
 

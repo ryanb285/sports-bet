@@ -1,6 +1,5 @@
 python-dotenv
 requests
-item-getter
 sendgrid==6.6.0
 pandas
 requests
